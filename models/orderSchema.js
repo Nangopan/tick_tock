@@ -52,7 +52,8 @@ const orderSchema=new Schema({
         type:Date,
         default:Date.now,
         required:true
-    },couponApplied:{
+    },
+    couponApplied:{
         type:Boolean,
         default:false
     }
