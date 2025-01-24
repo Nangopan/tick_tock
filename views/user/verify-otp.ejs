@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .verification-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .verification-container h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .verification-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .verification-container button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .verification-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .resend-container {
+            margin-top: 20px;
+        }
+
+        .resend-container button {
+            background-color: #6c757d;
+        }
+
+        .resend-container button:hover {
+            background-color: #495057;
+        }
+
+        .resend-container .timer {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .already-verified {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .already-verified a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .already-verified a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <h2>Email Verification Page</h2>
+        <form id="verificationForm" onsubmit="verifyEmail(event)">
+            <input type="text" name="otp" placeholder="Enter OTP" id="otpInput" required>
+            <button type="submit">Verify Email</button>
+        </form>
+
+        <div class="resend-container">
+            <div class="timer" id="timer">48</div>
+            <button onclick="resendOTP()" id="resendBtn" disabled>Resend OTP</button>
+        </div>
+
+        <div class="already-verified">
+            Already verified? <a href="#">Login now</a>
+        </div>
+    </div>
+
+    <script>
+        let countdown = 48;
+        const timerElement = document.getElementById("timer");
+        const resendButton = document.getElementById("resendBtn");
+
+        const timer = setInterval(() => {
+            countdown--;
+            timerElement.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(timer);
+                resendButton.disabled = false;
+                timerElement.textContent = "";
+            }
+        }, 1000);
+
+        function verifyEmail(event) {
+            event.preventDefault();
+            const otp = document.getElementById("otpInput").value;
+            alert(`OTP entered: ${otp}`);
+        }
+
+        function resendOTP() {
+            alert("OTP resent!");
+            countdown = 48;
+            resendButton.disabled = true;
+            timerElement.textContent = countdown;
+            setInterval(() => {
+                countdown--;
+                timerElement.textContent = countdown;
+
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    resendButton.disabled = false;
+                    timerElement.textContent = "";
+                }
+            }, 1000);
+        }
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
