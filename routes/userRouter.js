@@ -3,11 +3,11 @@ const router=express.Router()
 const passport=require("passport")
 const userController=require("../controllers/user/userController")
 
-// router.get('/pageNotFound',userController.pageNotFound)
+router.get('/pageNotFound',userController.pageNotFound)
 
 
 router.get("/signup",userController.loadSignup)
-router.get('/',userController.loadHomePage)
+
 router.post("/signup",userController.signup)
 router.post("/verify-otp",userController.verifyOtp)
 router.post("/resend-otp",userController.resendOtp)
@@ -17,6 +17,11 @@ router.get("/auth/google/callback",passport.authenticate("google",{failureRedire
     res.redirect('/')
 })
 
+router.get("/login",userController.loadLogin)
+router.post("/login",userController.login)
+
+router.get('/',userController.loadHomePage)
+router.get("/logout",userController.logout)
 
 
 module.exports=router

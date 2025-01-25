@@ -17,10 +17,16 @@ const loadSignup=async (req,res)=>{
 
 const loadHomePage=async (req,res)=>{
 try{
-    return res.render("home")
+    const user=req.session.user
+    if(user){
+        const userData=await User.findOne({_id:user._id})
+        res.render("home",{user:userData})
+    }else{
+        return res.render("home")
+    }
 }
 catch(error){
- console.log("Home page not found")
+ console.error("Home page not found",error)
  res.status(500).send("Server Error")
 }
 }
@@ -66,15 +72,16 @@ async function sendVerificationEmail(email,otp){
     }
 }
 const signup=async (req,res)=>{
-const {name,phone,email,password,cPassword}=req.body
+
     try{
+        const {name,phone,email,password,cPassword}=req.body
         if(password!==cPassword){
            return res.render("signup",{message:"Passwords do not match"})
         }
 
         const findUser=await User.findOne({email})
         if(findUser){
-            return res.render("signup",{message:"User with this mail already exists"})
+            return res.render("signup",{message:"User with this email already exists"})
         }
 
         const otp=generateOtp()
@@ -121,7 +128,7 @@ const verifyOtp= async (req,res)=>{
                 name:user.name,
                 email:user.email,
                 phone:user.phone,
-                password:passwordHash
+                password:passwordHash,
             })
             await saveUserData.save();
             console.log(saveUserData)
@@ -160,6 +167,67 @@ const resendOtp=async(req,res)=>{
          res.status(500).json({success:false,message:"Internal Server Error. Please try again."})
     }
 }
+
+const loadLogin=async (req,res)=>{
+    try {
+        if(!req.session.user){
+            return res.render("login")
+        }else{
+            res.redirect("/")
+        }
+    } catch (error) {
+        res.redirect("/pageNotFound")
+        
+    }
+}
+
+const login=async (req,res)=>{
+   
+    try {
+        const {email,password}=req.body
+        const findUser=await User.findOne({isAdmin:0,email:email})
+        console.log(findUser)
+
+        if(!findUser){
+         return res.render("login",{message:"User not found"})
+        }
+        if(findUser.isBlocked){
+            return res.render("login",{message:"User is blocked by admin"})
+        }
+        const passwordMatch=await bcrypt.compare(password,findUser.password)
+
+        if(!passwordMatch){
+          return res.render("login",{message:"Incorrect password"})
+        }
+
+        req.session.user = findUser;
+        res.redirect("/")
+
+    } catch (error) {
+
+      console.error("login error",error)
+    res.render("login",{message:"login Failed.Please try again later"})
+  
+}
+}
+
+const logout=async (req,res)=>{
+    try {
+        req.session.destroy((err)=>{
+            if(err){
+                console.log("Session destruction error",err.message)
+                return res.redirect("/pageNotFound")
+            }
+            return res.redirect("/login")
+        })
+    } catch (error) {
+        console.log("Logout error",error)
+        res.redirect("/pageNotFound")
+    }
+
+}
+
+
 module.exports={
     loadHomePage,
     pageNotFound,
@@ -167,4 +235,7 @@ module.exports={
     signup,
     verifyOtp,
     resendOtp,
+    loadLogin,
+    login,
+    logout,
 }

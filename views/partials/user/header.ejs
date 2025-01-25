@@ -1,87 +1,121 @@
-
-   
-        
 <!DOCTYPE html>
 <html lang="zxx">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Male_Fashion Template">
-    <meta name="keywords" content="Male_Fashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tick Tock</title>
+   <meta charset="UTF-8">
+   <meta name="description" content="Male_Fashion Template">
+   <meta name="keywords" content="Male_Fashion, unica, creative, html">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Tick-Tock</title>
+   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+   rel="stylesheet">
+   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+   <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+   <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+   <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+   <link rel="stylesheet" href="css/nice-select.css" type="text/css">
+   <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+   <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+   <link rel="stylesheet" href="css/style.css" type="text/css">
+   <link rel="stylesheet" href="./user-assets/css/maind134.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+   <style>
+       .header__nav__option .sign-in-link {
+   font-size: 16px;
+   color: #333;
+   margin-right: 15px;
+   text-decoration: none;
+   font-weight: 600;
+}
+.header__nav__option .sign-in-link:hover {
+   color: #ff7f50;
+}
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+.dropdown {
+   position:relative;
+   display:inline-block;
+}
+.dropdown-content {
+   display: none;
+   position:absolute;
+   background-color: white;
+   min-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   z-index:1000;
+   right:0;
+}
+
+
+.dropdown-content a {
+   color: black;
+   padding: 12px 16px;
+   text-decoration: none;
+   display: block;
+   width: 100%;
+
+
+}
+.dropdown-content a:hover{
+   background-color: #f1f1f1;
+}
+.dropdown:hover .dropdown-content{
+   display: block;
+}
+.header {
+   position: relative;
+   z-index: 500;
+}
+
+
+
+
+   </style>
 </head>
-
 <body>
-    <!-- Page Preloader -->
-    <div id="preloader">
-        <div class="loader"></div>
-    </div>
+   <header class="header">
+       <div class="container">
+           <div class="row" class="bg-info">
+               <div class="col-lg-3 col-md-3">
+                   <div class="header__logo">
+                       <a href="#"><img src="img/logo.webp" alt=""></a>
+                   </div>
+               </div>
+               <div class="col-lg-6 col-md-6">
+                   <nav class="header__menu mobile-menu">
+                       <ul>
+                           <li class="active"><a href="#">Home</a></li>
+                           <li><a href="/shop">Shop</a></li>
+                       </ul>
+                   </nav>
+               </div>
+               <div class="col-lg-3 col-md-3">
+                   <div class="header__nav__option">
+                       <%if(locals.user){%>
+                           <div class="dropdown">
+                               <a href="#" class="sign-in-link"><%=locals.user.name%></a>
+                               <div class="dropdown-content">
+                                   <a href="/userProfile">Profile</a>
+                                   <a href="/logout">Logout</a>
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Logo Section -->
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <div class="header__logo">
-                        <a href="./index.html" class="d-flex align-items-center">
-                            <!-- <img src="img/logo.png" alt="Tick Tock Logo" style="width: 50px; height: auto; margin-right: 10px;"> -->
-                            <h3 class="mb-0">Tick Tock</h3>
-                        </a>
-                    </div>
-                </div>
 
-                <!-- Navigation Menu -->
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <nav class="header__menu">
-                        <ul class="d-flex justify-content-center mb-0">
-                            <li class="active mx-3"><a href="./index.html">Home</a></li>
-                            <li class="mx-3"><a href="./shop.html">Shop</a></li>
-                        </ul>
-                    </nav>
-                </div>
+                               </div>
 
-                <!-- Right Options -->
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <div class="header__nav__option text-end d-flex align-items-center justify-content-end">
-                        <!-- Sign Up and Log In Buttons -->
-                        <a href="/signup" class="btn btn-outline-dark btn-sm me-2">Sign Up</a>
-                        <a href="/login" class="btn btn-dark btn-sm me-3">Log In</a>
 
-                        <!-- Icons -->
-                        <a href="#" class="me-2">
-                            <img src="img/icon/search.png" alt="Search" style="width: 20px; height: 20px;">
-                        </a>
-                        <a href="#" class="me-2">
-                            <img src="img/icon/heart.png" alt="Favorites" style="width: 20px; height: 20px;">
-                        </a>
-                        <a href="#" class="me-2">
-                            <img src="img/icon/cart.png" alt="Cart" style="width: 20px; height: 20px;">
-                            <span class="badge bg-dark text-white">0</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+                           </div>
+                       <% } else { %>
 
-            <!-- Mobile Menu Toggle -->
-            <div class="canvas__open d-lg-none">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
+
+                       <a href="/signup" class="sign-in-link">Sign Up</a>
+                       <a href="/login" class="sign-in-link">Log in</a>
+                       <%}%>
+                       <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
+                       <a href="/cart"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+                   </div>
+               </div>
+           </div>
+           <div class="canvas__open"><i class="fa fa-bars"></i></div>
+       </div>
+   </header>
+
+   
