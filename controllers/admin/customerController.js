@@ -14,19 +14,22 @@ const customerInfo=async (req,res)=>{
         const limit=3
         const userData=await User.find({
             isAdmin:false,
-            $or:[{name:{$regex:".*"+search+".*"}},
-                {email:{$regex:".*"+search+".*"} }],
+            $or:[{name:{$regex:".*"+ search +".*"}},
+                {email:{$regex:".*"+ search +".*"}},],
         })
         .limit(limit*1)
         .skip((page-1)*limit)
         .exec()
+        console.log(userData)
  
         const count=await User.find({isAdmin:false,
-            $or:[{name:{$regex:".*"+search+".*"}},
-                {email:{$regex:".*"+search+".*"}},]
+            $or:[{name:{$regex:".*"+ search +".*"}},
+                {email:{$regex:".*"+ search +".*"}},]
         }).countDocuments()
      
-        res.render("customers")
+        res.render("customers",{data: userData, 
+            totalPages: Math.ceil(count / limit), 
+            currentpage: page})
 
     } catch (error) {
         console.log("Error loading customer info",error)
@@ -35,7 +38,7 @@ const customerInfo=async (req,res)=>{
 const customerBlocked=async (req,res)=>{
     try {
         let id=req.query.id
-        await User.updateOne({_id:id},{$set:{isblocked:true}})
+        await User.updateOne({_id:id},{$set:{isBlocked:true}})
         res.redirect("/admin/users")
     } catch (error) {
         res.redirect("/pageerror")
@@ -45,7 +48,7 @@ const customerBlocked=async (req,res)=>{
 const customerUnblocked=async (req,res)=>{
     try {
         let id=req.query.id
-        await User.updateOne({_id:id},{$set:{isblocked:false}})
+        await User.updateOne({_id:id},{$set:{isBlocked:false}})
         res.redirect("/admin/users")
     } catch (error) {
         res.redirect("/pageerror")
