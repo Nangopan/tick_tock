@@ -194,13 +194,14 @@ const login=async (req,res)=>{
         if(findUser.isBlocked){
             return res.render("login",{message:"User is blocked by admin"})
         }
-        const passwordMatch=await bcrypt.compare(password,findUser.password)
+        const passwordMatch=bcrypt.compare(password,findUser.password)
 
         if(!passwordMatch){
           return res.render("login",{message:"Incorrect password"})
         }
 
-        req.session.user = findUser;
+        req.session.user = findUser
+        console.log(req.session.user)
         res.redirect("/")
 
     } catch (error) {

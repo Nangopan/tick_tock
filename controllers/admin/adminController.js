@@ -2,6 +2,14 @@ const User=require("../../models/userSchema")
 const mongoose=require("mongoose")
 const bcrypt=require("bcrypt")
 
+
+const pageerror=async (req,res)=>{
+    res.render("admin-error")
+}
+
+
+
+
 const loadLogin=(req,res)=>{
     if(req.session.admin){
         return res.redirect("/admin/dashboard")
@@ -41,8 +49,25 @@ const loadDashboard=async (req,res)=>{
     }
 }
 
+const logout=async (req,res)=>{
+    try {
+        req.session.destroy(error=>{
+            if(error){
+                console.log("Error destroying session",error)
+                return res.redirect("/pageerror")
+            }
+            res.redirect("/admin/login")
+        })
+    } catch (error) {
+        console.log("Unexpected error during logout",error)
+        res.redirect("/pageerror")
+    }
+}
+
 module.exports={
     loadLogin,
     login,
     loadDashboard,
+    pageerror,
+    logout,
 }
