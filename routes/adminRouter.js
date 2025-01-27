@@ -11,6 +11,8 @@ router.get("/",adminAuth,adminController.loadDashboard)
 router.get("/logout",adminController.logout)
 
 router.get("/users",adminAuth,customerController.customerInfo)
+router.get("blockCustomer",adminAuth,customerController.customerBlocked)
+router.get("/unblockCustomer",adminAuth,customerController.customerUnblocked)
 
 
 module.exports=router
