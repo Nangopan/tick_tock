@@ -19,7 +19,7 @@ const loadHomePage=async (req,res)=>{
 try{
     const user=req.session.user
     if(user){
-        const userData=await User.findOne({_id:user._id})
+        const userData=await User.findOne({_id:user})
         res.render("home",{user:userData})
     }else{
         return res.render("home")
@@ -54,6 +54,9 @@ async function sendVerificationEmail(email,otp){
             auth:{
                 user:process.env.NODEMAILER_EMAIL,
                 pass:process.env.NODEMAILER_PASSWORD
+            },
+            tls: {
+                rejectUnauthorized: false
             }
         })
 
@@ -200,7 +203,7 @@ const login=async (req,res)=>{
           return res.render("login",{message:"Incorrect password"})
         }
 
-        req.session.user = findUser
+        req.session.user = findUser._id
         console.log(req.session.user)
         res.redirect("/")
 
