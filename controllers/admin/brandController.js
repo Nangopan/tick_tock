@@ -53,7 +53,7 @@ const blockBrand=async (req,res)=>{
     }
 }
 
-const unBlockbrand=async (req,res)=>{
+const unBlockBrand=async (req,res)=>{
     try {
         const id=req.query.id
         await Brand.updateOne({_id:id},{$set:{isBlocked:false}})
@@ -65,7 +65,7 @@ const unBlockbrand=async (req,res)=>{
 }
 
 
-const deleteBrand=async(req,res)=>{
+const deleteBrand=async (req,res)=>{
     try {
         const {id}=req.query
         if(!id){
@@ -83,6 +83,6 @@ module.exports={
     getBrandPage,
     addBrand,
     deleteBrand,
-    unBlockbrand,
+    unBlockBrand,
     blockBrand,
 }
