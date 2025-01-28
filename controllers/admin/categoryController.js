@@ -30,7 +30,7 @@ const categoryInfo=async (req,res)=>{
 
 const addCategory=async (req,res)=>{
     const {name,description}=req.body
-    console.log("hii from adCategoruy controller")
+    
 
     try{
         const existingCategory=await Category.findOne({name})
