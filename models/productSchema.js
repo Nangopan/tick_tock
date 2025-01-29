@@ -25,7 +25,7 @@ const productSchema=new Schema({
     },
     saleprice:{
         type:Number,
-        required:true
+        // required:true
     },
     productOffer:{
         type:Number,
@@ -40,7 +40,7 @@ const productSchema=new Schema({
         required:true
     },
     productImage:{
-        type:Boolean,
+        type:[String],
         required:true
     },
     isBlocked:{
