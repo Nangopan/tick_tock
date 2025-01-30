@@ -77,7 +77,7 @@
                                <div class="col-lg-4">
                                    <div class="mb-4">
                                        <label class="form-label">Sale price</label>
-                                       <input name="salePrice" type="text" value="<%=product.salePrice%>"
+                                       <input name="salePrice" type="text" value="<%=product.saleprice%>"
                                            class="form-control border">
                                    </div>
                                    <div id="salePrice-error" class="error-message"></div>
@@ -395,19 +395,23 @@
                    addedImagesContainer.appendChild(thumbnail);
                }
            };
-           function deleteSingleImage(imageId,productId){
-            $.ajax({
-              url:"/admin/deleteImage",
-              method:"post",
-              data:{imageNameToServer:imageId,productIdToServer:productId},
-              success:((response)=>{
-                if(response.status===true){
-                    window.location.reload()
-                }
-              })
-            })
-           }
-           
+           function deleteSingleImage(imageId, productId) {
+    $.ajax({
+        url: "/admin/deleteImage",
+        method: "POST",
+        data: { imageNameToServer: imageId, productIdToServer: productId },
+        success: function (response) {
+            if (response.status === true) {
+                window.location.reload();
+            } else {
+                alert("Failed to delete image.");
+            }
+        },
+        error: function () {
+            alert("Error occurred while deleting the image.");
+        }
+    });
+}          
        </script>
     
-    
+     

@@ -190,23 +190,51 @@
     }
    }
 
-   const deleteSingleImage=async (req,res)=>{
+//    const deleteSingleImage=async (req,res)=>{
+//     try {
+//         const {imageNameToServer,productIdToServer}=req.body
+//         const product=await Product.findByIdAndUpdate(productIdToServer,{$pull:{productImage:imageNameToServer}})
+//         const imagePath=path.join("public","uploads","product-images",imageNameToServer)
+//         if(fs.existsSync(imagePath)){
+//             await fs.unlinkSync(imagePath)
+//             console.log(`Image${imageNameToServer} deleted successfully`)
+//         }else{
+//             console.log(`Image${imageNameToServer} not found`)
+//         }
+//         res.send({status:true})
+//     } catch (error) {
+//         console.log("error in deleting product",error)
+//         res.redirect("/pageerror")
+//     }
+//    }
+
+const deleteSingleImage = async (req, res) => {
     try {
-        const {imageNameToServer,productIdToServer}=req.body
-        const product=await Product.findByIdAndUpdate(productIdToServer,{$pull:{productImage:imageNameToServer}})
-        const imagePath=path.join("public","uploads","re-image",imageNameToServer)
-        if(fs.existsSync(imagePath)){
-            await fs.unlinkSync(imagePath)
-            console.log(`Image${imageNameToServer} deleted successfully`)
-        }else{
-            console.log(`Image${imageNameToServer} not found`)
+        const { imageNameToServer, productIdToServer } = req.body;
+        
+        // Remove the image from the product's image array
+        const product = await Product.findByIdAndUpdate(productIdToServer, { $pull: { productImage: imageNameToServer } });
+
+        // Delete the image file from the server
+        const imagePath = path.join("public", "uploads", "re-image", imageNameToServer);
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+            console.log(`Image ${imageNameToServer} deleted successfully`);
+        } else {
+            console.log(`Image ${imageNameToServer} not found`);
         }
-        res.send({status:true})
+
+        res.send({ status: true });
     } catch (error) {
-        console.log("error in deleting product",error)
-        res.redirect("/pageerror")
+        console.log("Error in deleting product image", error);
+        res.status(500).send({ status: false, error: "Internal Server Error" });
     }
-   }
+};
+
+
+
+
+
 
    module.exports={
     getProductAddPage,
