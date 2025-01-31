@@ -20,7 +20,7 @@ const loadSignup=async (req,res)=>{
 
 const loadHomePage=async (req,res)=>{
 try{
-    const user=req.session.user
+    const user = req.session.user ? await User.findOne({ _id: req.session.user }) : null;
     const categories=await Category.find({isListed:true})
     let productData =await Product.find({isBlocked:false,
         category:{$in:categories.map(category=>category._id)},quantity:{$gt:0}
@@ -200,7 +200,7 @@ const login=async (req,res)=>{
     try {
         const {email,password}=req.body
         const findUser=await User.findOne({isAdmin:0,email:email})
-        console.log(findUser)
+        
 
         if(!findUser){
          return res.render("login",{message:"User not found"})

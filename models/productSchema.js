@@ -11,7 +11,7 @@ const productSchema=new Schema({
         required:true,
     },
     brand:{
-        type:"string",
+        type:String,
         required:true
     },
     category:{
@@ -33,7 +33,7 @@ const productSchema=new Schema({
     },
     quantity:{
         type:Number,
-        default:true   
+        default:0,   
     },
     color:{
         type:String,
