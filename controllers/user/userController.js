@@ -231,7 +231,7 @@ const logout = async (req, res) => {
 
 
 
-const loadshoppingPage = async (req, res) => {
+const loadShoppingPage = async (req, res) => {
   try {
     const user = req.session.user;
     const userData = await User.findOne({ _id: user });
@@ -257,10 +257,7 @@ const loadshoppingPage = async (req, res) => {
     const totalPages = Math.ceil(totalProducts / limit);
 
     const brands = await Brand.find({ isBlocked: false });
-    const categoriesWithIds = categories.map((category) => ({
-      _id: category._id,
-      name: category.name,
-    }));
+    const categoriesWithIds = categories.map(category=>({_id:category._id,name:category.name}))
     res.render("shop", {
       user: userData,
       products: products,
@@ -465,7 +462,7 @@ const searchProducts=async(req,res)=>{
 
 module.exports = {
   loadHomePage,
-  loadshoppingPage,
+  loadShoppingPage,
   pageNotFound,
   loadSignup,
   signup,
