@@ -7,6 +7,7 @@ const env = require("dotenv").config();
 const db = require("./config/db");
 const userRouter = require("./routes/userRouter");
 const adminRouter = require("./routes/adminRouter");
+const morgan = require('morgan')
 db();
 
 app.use(express.json());
@@ -26,7 +27,7 @@ app.use(
 );
 
 
-
+app.use(morgan('dev'))
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req, res, next) => {

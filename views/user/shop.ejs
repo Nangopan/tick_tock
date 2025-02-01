@@ -219,7 +219,7 @@
  <section class="shop-page container">
    <div class="shop-topbar">
      <div class="search-bar">
-       <form action="" method="POST" class="search-form">
+       <form action="/search" method="POST" class="search-form">
          <input type="text" name="query" placeholder="Search items..." class="search-input" />
          <button type="submit" class="search-button">Search</button>
        </form>
@@ -234,7 +234,7 @@
            <ul>
             <%for(let i=0;i<category.length;i++){%>
                <li class="filter-item">
-                 <a href=""><%=category[i].name%></a>
+                 <a href="/filter?category=<%category[i]._id%>"><%=category[i].name%></a>
                </li>
                <%}%>
            </ul>
@@ -249,7 +249,7 @@
            <ul>
             <%for(let i=0;i<brand.length;i++){%>
                <li class="filter-item">
-                 <a href=""><%=brand[i].brandname%></a>
+                 <a href="/filter?brand=<%brand[i]._id%>"><%=brand[i].brandName%></a>
                </li>
                <%}%>
            </ul>
@@ -262,10 +262,10 @@
          <div class="filter-title">Filter by Price</div>
          <form id="price-filter-form">
            <div class="price-options">
-             <a href=""><button type="button" class="price-button">Under ₹500</button></a>
-             <a href=""><button type="button" class="price-button">₹500 - ₹1000</button></a>
-             <a href=""><button type="button" class="price-button">₹1000- ₹1500</button></a>
-             <a href=""><button type="button" class="price-button">Above ₹1500</button></a>
+             <a href="/filterPrice?gt=0&lt=500"><button type="button" class="price-button">Under ₹500</button></a>
+             <a href="/filterPrice?gt=500&lt=1000"><button type="button" class="price-button">₹500 - ₹1000</button></a>
+             <a href="/filterPrice?gt=1000&lt=1500"><button type="button" class="price-button">₹1000- ₹1500</button></a>
+             <a href="/filterPrice?gt=1500&lt=1000000"><button type="button" class="price-button">Above ₹1500</button></a>
            </div>
          </form>
        </div>
@@ -280,7 +280,7 @@
              <img src="/uploads/re-image/<%=products[i].productImage[0]%>" alt="<%=products[i].productName%>" />
              <h4><%=products[i].productName%></h4>
              <p>Brand:<%=products[i].brand%></p>
-             <p>price:₹<%=products[i].salePrice.toLocaleString('en-IN')%> <span class="text-muted"><strike>₹<%=products[i].regularPrice.toLocaleString('en-IN')%></strike></span></p>
+             <p>price:₹<%=products[i].saleprice.toLocaleString('en-IN')%> <span class="text-muted"><strike>₹<%=products[i].regularPrice.toLocaleString('en-IN')%></strike></span></p>
            </a>
            <button class="add-to-cart-btn" onclick="">Add to Cart</button>
          </div>

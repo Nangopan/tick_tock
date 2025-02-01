@@ -24,6 +24,11 @@ router.get("/login", userController.loadLogin);
 router.post("/login", userController.login);
 router.get("/", userController.loadHomePage);
 router.get("/shop", userAuth, userController.loadshoppingPage);
+router.get("/filter",userAuth,userController.filterProduct)
+router.get("/filterPrice",userAuth,userController.filterByPrice)
+router.post("/search",userAuth,userController.searchProducts)
+
+
 router.get("/logout", userController.logout);
 
 module.exports = router;

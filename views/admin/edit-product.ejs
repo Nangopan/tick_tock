@@ -137,7 +137,7 @@
                                                        <img class="rounded" style="width: 50px; height: 60px;"
                                                            src="/uploads/re-image/<%=product.productImage[i]%>"
                                                            alt="">
-                                                       <i onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')" style="position: absolute; margin-left: .5rem; cursor: pointer;" class="fa-thin fa-x"></i>
+                                                       <i onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')" style="position: absolute; margin-left: .5rem; cursor: pointer;" class="fa-thin fa-x">X</i>
                                                    </td>
                                                </div>
                                               
@@ -215,8 +215,7 @@
        </div>
    </section>
    <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
-<%- include("../../views/partials/admin/footer") %>
-<script>
+   <script>
 
 
     function validateAndSubmit() {
@@ -395,23 +394,20 @@
                    addedImagesContainer.appendChild(thumbnail);
                }
            };
-           function deleteSingleImage(imageId, productId) {
-    $.ajax({
-        url: "/admin/deleteImage",
-        method: "POST",
-        data: { imageNameToServer: imageId, productIdToServer: productId },
-        success: function (response) {
-            if (response.status === true) {
-                window.location.reload();
-            } else {
-                alert("Failed to delete image.");
-            }
-        },
-        error: function () {
-            alert("Error occurred while deleting the image.");
-        }
-    });
-}          
+           function deleteSingleImage(imageId,productId){
+            $.ajax({
+              url:"/admin/deleteImage",
+              method:"POST",
+              data:{imageNameToServer:imageId,productIdToServer:productId},
+              success:((response)=>{
+                if(response.status===true){
+                    window.location.reload()
+                }
+              })
+            })
+           }
+         
        </script>
     
      
+<%- include("../../views/partials/admin/footer") %>
