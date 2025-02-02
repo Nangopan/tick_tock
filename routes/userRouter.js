@@ -30,6 +30,9 @@ router.get("/filter",userAuth,userController.filterProduct)
 router.get("/filterPrice",userAuth,userController.filterByPrice)
 router.post("/search",userAuth,userController.searchProducts)
 
+
+router.get("/forgot-password",profileController.getForgotPassPage)
+router.post("/forgot-email-valid",profileController.forgotEmailValid)
 router.get("/userProfile",userAuth,profileController.userProfile)
 router.get("/change-email",userAuth,profileController.changeEmail)
 router.post("/change-email",userAuth,profileController.changeEmailValid)
