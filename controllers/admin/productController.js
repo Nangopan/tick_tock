@@ -186,7 +186,7 @@ const editProduct = async (req, res) => {
       brand: data.brand,
       category: product.category,
       regularPrice: data.regularPrice,
-      salePrice: data.salePrice,
+      saleprice: data.salePrice,
       quantity: data.quantity,
       color: data.color,
     };

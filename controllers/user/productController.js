@@ -16,8 +16,8 @@ const productDetails=async (req,res)=>{
        res.render("product-details",{
         user:userData,
         product:product,
-        totalOffer:totalOffer,
         quantity:product.quantity,
+        totalOffer:totalOffer,
         category:findCategory
        })
     } catch (error) {

@@ -381,7 +381,7 @@ const filterByPrice=async(req,res)=>{
     const categories=await Category.find({isListed:true}).lean()
 
     let findProducts=await Product.find({
-      saleprice:{$gt:req.query.gt,$lt:req.query.lt},
+      regularPrice:{$gt:req.query.gt,$lt:req.query.lt},
       isBlocked:false,
       quantity:{$gt:0}
     }).lean()

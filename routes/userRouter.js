@@ -4,6 +4,7 @@ const passport = require("passport");
 const { userAuth, adminAuth } = require("../middlewares/auth");
 const userController = require("../controllers/user/userController");
 const productController=require("../controllers/user/productController")
+const profileController=require("../controllers/user/profileController")
 
 router.get("/pageNotFound", userController.pageNotFound);
 router.get("/signup", userController.loadSignup);
@@ -28,6 +29,10 @@ router.get("/shop", userAuth, userController.loadShoppingPage);
 router.get("/filter",userAuth,userController.filterProduct)
 router.get("/filterPrice",userAuth,userController.filterByPrice)
 router.post("/search",userAuth,userController.searchProducts)
+
+router.get("/userProfile",userAuth,profileController.userProfile)
+router.get("/change-email",userAuth,profileController.changeEmail)
+router.post("/change-email",userAuth,profileController.changeEmailValid)
 
 router.get("/productDetails",userAuth,productController.productDetails)
 
