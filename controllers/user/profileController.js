@@ -115,35 +115,6 @@ const changeEmail=async(req,res)=>{
     }
 }
 
-const changeEmailValid=async(req,res)=>{
-try {
-    const {email}=req.body
-
-    const userExists=await User.findOne({email})
-    if(userExists){
-        const otp=generateOtp()
-        const emailSent=await sendVerificatioEmail(email,otp)
-        if(emailSent){
-            req.session.userOtp=otp
-            req.session.userData=req.body
-            req.session.email=email
-            res.render("change-email-otp")
-            console.log("Email sent:",email)
-            console.log("OTP:",otp)
-        }else{
-            res.json("email-error")
-        }
-    }else{
-        res.render('change-email',{
-            message:"User with this email already exists"
-        })
-    }
-} catch (error) {
-    console.log("Error validating change email",error)
-    res.redirect("/pageNotFound")
-}
-}
-
 
 const verifyForgotPassOtp=async (req,res)=>{
     try {
@@ -201,6 +172,105 @@ const postNewPassword=async (req,res)=>{
     }
 }
 
+
+
+const changeEmailValid=async(req,res)=>{
+    try {
+        const {email}=req.body
+    
+        const userExists=await User.findOne({email})
+        if(userExists){
+            const otp=generateOtp()
+            const emailSent=await sendVerificationEmail(email,otp)
+            if(emailSent){
+                req.session.userOtp=otp
+                req.session.userData=req.body
+                req.session.email=email
+                res.render("change-email-otp")
+                console.log("Email sent:",email)
+                console.log("OTP:",otp)
+            }else{
+                res.json("email-error")
+            }
+        }else{
+            res.render('change-email',{
+                message:"User with this email already exists"
+            })
+        }
+    } catch (error) {
+        console.log("Error validating change email",error)
+        res.redirect("/pageNotFound")
+    }
+    }
+
+    const verifyEmailOtp=async (req,res)=>{
+        try {
+            const enteredOtp=req.body.otp
+            if(enteredOtp===req.session.userOtp){
+                req.session.userData=req.body.userData
+                res.render("new-email",{
+                    userData:req.session.userData
+                })
+            }else{
+                res.render("change-email-otp",{
+                    message:"OTP not matching",
+                    userData:req.session.userData
+                })
+            }
+        } catch (error) {
+            res.redirect("/pageNotFound")
+        }
+    }
+   
+   const updateEmail=async(req,res)=>{
+    try {
+        const newEmail=req.body.newEmail
+        const userId=req.session.user
+        await User.findByIdAndUpdate(userId,{email:newEmail})
+        res.redirect("/userProfile")
+    } catch (error) {
+        res.redirect("pageNotFound")
+    }
+   }
+
+   const changePassword=async(req,res)=>{
+    try {
+        res.render("change-password")
+    } catch (error) {
+        res.redirect("/pageNotFound")
+    }
+   }
+
+   const changePasswordValid=async (req,res)=>{
+    try {
+        const {email}=req.body
+        const userExists=await User.findOne({email})
+        if(userExists){
+            const otp=generateOtp()
+            const emailSent=await sendVerificationEmail(email,otp)
+            if(emailSent){
+                req.session.userOtp=otp
+                req.session.userData=req.body
+                req.session.email=email
+                res.render("change-password-otp")
+                console.log("OTP",otp)
+            }else{
+                res.json({
+                    success:false,
+                    message:"Failed to send OTP Please try again"
+                })
+            }
+        }else{
+          res.render("change-password",{
+            message:"User with this email does not exist"
+          })
+        }
+    } catch (error) {
+        console.log("error in change password validation",error)
+        res.redirect("/pageNotFound")
+    }
+   }
+
 module.exports={
     userProfile,
     changeEmailValid,
@@ -211,4 +281,8 @@ module.exports={
     getResetPassPage,
     resendOtp,
     postNewPassword,
+    verifyEmailOtp,
+    updateEmail,
+    changePassword,
+    changePasswordValid,
 }
