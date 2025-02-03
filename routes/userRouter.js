@@ -33,9 +33,14 @@ router.post("/search",userAuth,userController.searchProducts)
 
 router.get("/forgot-password",profileController.getForgotPassPage)
 router.post("/forgot-email-valid",profileController.forgotEmailValid)
+router.post("/verify-passForgot-otp",profileController.verifyForgotPassOtp)
+router.get("/reset-password",userAuth,profileController.getResetPassPage)
+
+
 router.get("/userProfile",userAuth,profileController.userProfile)
 router.get("/change-email",userAuth,profileController.changeEmail)
 router.post("/change-email",userAuth,profileController.changeEmailValid)
+
 
 router.get("/productDetails",userAuth,productController.productDetails)
 

@@ -61,7 +61,7 @@
      <h3 class="mb-30 text-center">Email Verification</h3>
    </div>
    <div class="otp-container">
-     <form onsubmit="">
+     <form onsubmit="return validateOtpForm()">
        <div class="form-group">
          <label for="otp">Enter OTP:</label>
          <input type="text" id="otp" name="otp" class="form-control" required>
@@ -117,11 +117,44 @@ function updateTimerColor(percentage){
             }
         },1000)
     }
-    initializeotpTimer()
+    initializeOtpTimer()
     function initializeOtpTimer(){
         clearInterval(otpTimerInterval)
         timer=60
         startOtpTimer()
+    }
+
+    function validateOtpform(){
+      $.ajax({
+        type:"POST",
+        url:"/verify-passForgot-otp",
+        data:{otp:otpInput},
+       success:function(response){
+        if(response.success){
+          Swal.fire({
+            icon:"success",
+            title:"OTP Verified Successfully",
+            showConfirmButton:false,
+            timer:1500,
+          }).then(()=>{
+            window.location.href=response.redirectUrl
+          })
+        }else{
+          Swal.fire({
+            icon:"error",
+            title:"Invalid OTP",
+            text:response.message
+          })
+        }
+       },error:function(){
+        swal.fire({
+          icon:"error",
+          title:"error",
+          text:"failed to verify OTP/ Please try again."
+        })
+       }
+      })
+      return false
     }
 </script>
 <%- include("../../views/partials/user/footer") %>

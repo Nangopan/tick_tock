@@ -13,7 +13,7 @@ function generateOtp(){
     return otp
 }
 
-const sendVerificationEmail=async(req,res)=>{
+const sendVerificationEmail=async(email,otp)=>{
     try {
         const transporter=nodemailer.createTransport({
             service:"gmail",
@@ -61,6 +61,8 @@ const forgotEmailValid=async (req,res)=>{
         if(findUser){
             const otp=generateOtp()
             const emailSent=await sendVerificationEmail(email,otp)
+            console.log(otp)
+            console.log(emailSent)
             if(emailSent){
                 req.session.userOtp=otp
                 req.session.email=email
@@ -133,10 +135,35 @@ try {
 }
 }
 
+
+const verifyForgotPassOtp=async (req,res)=>{
+    try {
+        const enteredOtp=req.body.otp
+        if(enteredOtp===req.session.userOtp){
+        res.json({success:true,redirectUrl:"/reset-password"})
+        }else{
+        res.json({success:false,message:"OTP not matching"})
+        }
+    } catch (error) {
+        console.log("error in verifying otp",error)
+        res.status(500).json({success:false,message:"An error occured. Pleas try again"})
+    }
+}
+
+const getResetPassPage=async (req,res)=>{
+    try {
+        res.render("reset-password")
+    } catch (error) {
+        res.redirect("/pageNotFound")
+    }
+}
+
 module.exports={
     userProfile,
     changeEmailValid,
     changeEmail,
     getForgotPassPage,
     forgotEmailValid,
+    verifyForgotPassOtp,
+    getResetPassPage,
 }
