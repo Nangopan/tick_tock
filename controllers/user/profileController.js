@@ -271,6 +271,20 @@ const changeEmailValid=async(req,res)=>{
     }
    }
 
+   const verifyChangePassOtp=async (req,res)=>{
+    try {
+        const enteredOtp=req.body.otp
+        if(enteredOtp===req.session.userOtp){
+            res.json({success:true,redirectUrl:"/reset-password"})
+        }else{
+            res.json({success:false,message:"OTP not matching"})
+        }
+    } catch (error) {
+        console.log("error in verifying changed passwords",error)
+        res.status(500).json({success:false,message:"An error occured. Please try again later"})
+    }
+   }
+
 module.exports={
     userProfile,
     changeEmailValid,
@@ -285,4 +299,5 @@ module.exports={
     updateEmail,
     changePassword,
     changePasswordValid,
+    verifyChangePassOtp,
 }
