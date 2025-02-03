@@ -46,6 +46,15 @@ const sendVerificationEmail=async(email,otp)=>{
     }
 }
 
+const securePassword=async (password)=>{
+    try {
+        const passwordHash=await bcrypt.hash(password,10)
+        return passwordHash
+    } catch (error) {
+        console.log("error in hashing passord",error)       
+    }
+}
+
 const getForgotPassPage=async (req,res)=>{
     try {
         res.render("forgot-password")
@@ -158,6 +167,40 @@ const getResetPassPage=async (req,res)=>{
     }
 }
 
+const resendOtp=async (req,res)=>{
+    try {
+        const otp=generateOtp()
+        req.session.userOtp=otp
+        const email=req.session.email
+        console.log("Resending OTP to email:",email)
+        const emailSent=await sendVerificationEmail(email,otp)
+        if(emailSent){
+            console.log("Resend OTP:",otp)
+            res.status(200).json({success:true,message:"Resend OTP Successful"})
+        }
+    } catch (error) {
+        console.error("Error in resending Otp",error)
+        res.status(500).json({success:false,message:"Internal Server Error"})
+    }
+}
+
+const postNewPassword=async (req,res)=>{
+    try {
+        const {newPass1,newPass2}=req.body
+        const email=req.session.email
+        if(newPass1===newPass2){
+            const passwordHash=await securePassword(newPass1)
+            await User.updateOne({email:email},{$set:{password:passwordHash}})
+        res.redirect("/login")
+        }else{
+            res.render("reset-password",{message:"Passwords do not match"})
+        }
+    } catch (error) {
+        console.log("error in changing passwords",error)
+        res.redirect("/pageNotFound")
+    }
+}
+
 module.exports={
     userProfile,
     changeEmailValid,
@@ -166,4 +209,6 @@ module.exports={
     forgotEmailValid,
     verifyForgotPassOtp,
     getResetPassPage,
+    resendOtp,
+    postNewPassword,
 }

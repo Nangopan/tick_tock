@@ -74,7 +74,7 @@
        <div class="otp-timer" id="otpTimer"></div>
      </div>
      <div class="form-group">
-       <button type="button" class="btn btn-link resend-button" onclick="">Resend OTP</button>
+       <button type="button" class="btn btn-link resend-button" onclick="resendOtp()">Resend OTP</button>
      </div>
      <%if(locals.message&&message.length>0){%>
        <div class="alert alert-danger mt-3">
@@ -124,37 +124,74 @@ function updateTimerColor(percentage){
         startOtpTimer()
     }
 
-    function validateOtpform(){
-      $.ajax({
-        type:"POST",
-        url:"/verify-passForgot-otp",
-        data:{otp:otpInput},
-       success:function(response){
-        if(response.success){
-          Swal.fire({
-            icon:"success",
-            title:"OTP Verified Successfully",
-            showConfirmButton:false,
-            timer:1500,
-          }).then(()=>{
-            window.location.href=response.redirectUrl
-          })
-        }else{
-          Swal.fire({
-            icon:"error",
-            title:"Invalid OTP",
-            text:response.message
-          })
+    function validateOtpForm() {
+    const otpInput = document.getElementById("otp").value.trim(); // ✅ Get OTP value
+
+    $.ajax({
+        type: "POST",
+        url: "/verify-passForgot-otp",
+        data: { otp: otpInput }, // ✅ Now it has the correct value
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "OTP Verified Successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                }).then(() => {
+                    window.location.href = response.redirectUrl;
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Invalid OTP",
+                    text: response.message
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Failed to verify OTP. Please try again."
+            });
         }
-       },error:function(){
-        swal.fire({
-          icon:"error",
-          title:"error",
-          text:"failed to verify OTP/ Please try again."
+    });
+
+    return false; // Prevent form from submitting normally
+}
+
+function resendOtp(){
+  clearInterval(otpTimerInterval)
+  timer=60
+  startOtpTimer()
+  $.ajax({
+    type:"POST",
+    url:"/resend-forgot-otp",
+    success:function (response){
+      if(response.success){
+        Swal.fire({
+          icon:"success",
+          title:"Resend OTP Successful",
+          showConfirmButton:false,
+          timer:1500,
         })
-       }
+      }else{
+        Swal.fire({
+          icon:"error",
+          title:"Error",
+          text:"Failed to resend"
+        })
+      }
+    },
+    error:function (){
+      swal.fire({
+        icon:"error",
+        title:"Error",
+        text:"Failed to resend OTP. Please try again."
       })
-      return false
     }
+  })
+}
 </script>
 <%- include("../../views/partials/user/footer") %>
