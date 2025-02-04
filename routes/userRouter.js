@@ -11,21 +11,16 @@ router.get("/signup", userController.loadSignup);
 router.post("/signup", userController.signup);
 router.post("/verify-otp", userController.verifyOtp);
 router.post("/resend-otp", userController.resendOtp);
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/signup" }),
-  (req, res) => {
-    res.redirect("/");
-  }
-);
+
+
+router.get("/auth/google",passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/auth/google/callback",passport.authenticate("google", { failureRedirect: "/signup" }),(req, res) => {res.redirect("/")});
+
+
 router.get("/login", userController.loadLogin);
 router.post("/login", userController.login);
 router.get("/", userController.loadHomePage);
-router.get("/shop", userAuth, userController.loadShoppingPage);
+router.get("/shop", userController.loadShoppingPage);
 router.get("/filter",userAuth,userController.filterProduct)
 router.get("/filterPrice",userAuth,userController.filterByPrice)
 router.post("/search",userAuth,userController.searchProducts)
@@ -54,7 +49,7 @@ router.get("/editAddress",userAuth,profileController.editAddress)
 router.post("/editAddress",userAuth,profileController.postEditAddress)
 router.get("/deleteAddress",userAuth,profileController.deleteAddress)
 
-router.get("/productDetails",userAuth,productController.productDetails)
+router.get("/productDetails",productController.productDetails)
 
 router.get("/logout", userController.logout);
 

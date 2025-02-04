@@ -3,7 +3,7 @@
  <div class="page-header breadcrumb-wrap">
      <div class="container">
          <div class="breadcrumb">
-             <a href="#" rel="nofollow">Home</a>
+             <a href="/" rel="nofollow">Home</a>
              <span></span> Watches
              <span></span>product detail page
          </div>
@@ -96,7 +96,13 @@
                                  <ul class="product-meta font-xs color-grey mt-50">
                                      <li class="mb-5">Stock Code: <a href="#">FWM15VKT</a></li>
                                      <li class="mb-5">Tags: <a href="#" rel="tag"></a> <a href="#" rel="tag"></a> <a href="#" rel="tag"><%=category.name%></a> </li>
-                                     <li>Availability:<span class="in-stock text-success ml-5"><%=quantity%> Items in stock</span></li>
+                                     <li>Availability:
+                                        <% if (quantity >= 0) { %>
+                                            <span class="in-stock text-success ml-5"><%= quantity %> Items in stock</span>
+                                        <% } else { %>
+                                            <span class="out-of-stock text-danger ml-5">Out of stock</span>
+                                        <% } %>
+                                    </li>
                                  </ul>
                              </div>
                          </div>

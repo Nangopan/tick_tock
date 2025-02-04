@@ -20,7 +20,6 @@ const userSchema = new Schema({
   googleId: {
     type: String,
     unique: true,
-    sparse: true,
   },
   password: {
     type: String,
@@ -34,55 +33,55 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  cart: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Cart",
-    },
-  ],
-  wallet: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Wishlist",
-    },
-  ],
-  orderHistory: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Order",
-    },
-  ],
   createdOn: {
     type: Date,
     default: Date.now,
   },
-  referralCode: {
-    type: String,
-  },
-  redeemed: {
-    type: Boolean,
-  },
-  redeemedUsers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  searchHistory: [
-    {
-      category: {
-        type: Schema.Types.ObjectId,
-        ref: "Category",
-      },
-      brand: {
-        type: String,
-      },
-      searchOn: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
+  // cart: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Cart",
+  //   },
+  // ],
+  // wallet: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Wishlist",
+  //   },
+  // ],
+  // orderHistory: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Order",
+  //   },
+  // ],
+  // referralCode: {
+  //   type: String,
+  // },
+  // redeemed: {
+  //   type: Boolean,
+  // },
+  // redeemedUsers: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "User",
+  //   },
+  // ],
+  // searchHistory: [
+  //   {
+  //     category: {
+  //       type: Schema.Types.ObjectId,
+  //       ref: "Category",
+  //     },
+  //     brand: {
+  //       type: String,
+  //     },
+  //     searchOn: {
+  //       type: Date,
+  //       default: Date.now,
+  //     },
+  //   },
+  // ],
 });
 
 const User = mongoose.model("User", userSchema);

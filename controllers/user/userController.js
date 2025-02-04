@@ -220,7 +220,7 @@ const logout = async (req, res) => {
         console.log("Session destruction error", err.message);
         return res.redirect("/pageNotFound");
       }
-      return res.redirect("/login");
+      return res.redirect("/");
     });
   } catch (error) {
     console.log("Logout error", error);
@@ -459,6 +459,8 @@ const searchProducts=async(req,res)=>{
     
   }
 }
+
+
 
 module.exports = {
   loadHomePage,

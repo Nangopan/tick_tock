@@ -245,23 +245,22 @@
         }
 
         function emailValidateChecking() {
-          const emailval = emailid.value.trim();
-          const emailpattern =
-            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  const emailval = emailid.value.trim();
+  const emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-          if (emailval === "") {
-            error2.style.display = "block";
-            error2.innerHTML = "Email address cannot be empty";
-            return false;
-          } else if (!emailpattern.test(emailval)) {
-            error2.style.display = "block";
-            error2.innerHTML = "Invalid email format";
-            return false;
-          } else {
-            error2.style.display = "none";
-            return true;
-          }
-        }
+  if (emailval === "") {
+    error2.textContent = "Email address cannot be empty";  // Set error text
+    error2.style.display = "block";  // Ensure error message is visible
+    return false;
+  } else if (!emailpattern.test(emailval)) {
+    error2.textContent = "Invalid email format";  // Set error message
+    error2.style.display = "block";  // Ensure it is visible
+    return false;
+  } else {
+    error2.style.display = "none";  // Hide error if input is correct
+    return true;
+  }
+}
 
         function phoneValidateChecking() {
           const phoneval = phoneid.value.trim();

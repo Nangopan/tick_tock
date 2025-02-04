@@ -34,6 +34,10 @@ app.use((req, res, next) => {
   res.set("cache-control", "no-store");
   next();
 });
+app.use((req, res, next) => {
+  res.locals.user = req.user || null; 
+  next();
+});
 
 app.set("view engine", "ejs");
 app.set("views", [

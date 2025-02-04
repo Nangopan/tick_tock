@@ -16,17 +16,17 @@ const loadLogin = (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const admin = await User.findOne({ email, isAdmin: true });
+    const admin = await User.findOne({ email, isAdmin: true});
     if (admin) {
-      const passwordMatch = bcrypt.compare(password, admin.password);
+      const passwordMatch =await bcrypt.compare(password, admin.password);
       if (passwordMatch) {
         req.session.admin = true;
         return res.redirect("/admin");
       } else {
-        return res.redirect("/login");
+        return res.redirect("/");
       }
     } else {
-      return res.redirect("/login");
+      return res.redirect("/admin");
     }
   } catch (error) {
     console.log("login error");

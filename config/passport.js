@@ -12,16 +12,19 @@ passport.use(new GoogleStrategy({
 },
 async (accessToken,refreshToken,profile,done)=>{
     try {
+        console.log("Google Profile:", profile);
         let user=await User.findOne({googleId:profile.id})
         if(user){
+            console.log("User found:", user);
             return done(null,user)
         }else{
             user=new User({
-                name:profile.displayname,
+                name:profile.displayName,
                 email:profile.emails[0].value,
-                googleID:profile.id,
+                googleId:profile.id,
             })
             await user.save()
+            console.log("New User Created:", user);
             return done(null,user)
         }
     } catch (error) {
@@ -37,8 +40,8 @@ passport.serializeUser((user,done)=>{
 
 passport.deserializeUser((id,done)=>{
     User.findById(id)
-    .then((user)=>{done(null,user)})
-    .catch((err)=>{done(err,null)})
+    .then(user=>{done(null,user)})
+    .catch(err=>{done(err,null)})
 })
 
 
