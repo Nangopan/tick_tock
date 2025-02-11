@@ -399,20 +399,77 @@
                    addedImagesContainer.appendChild(thumbnail);
                }
            };
-           function deleteSingleImage(imageId,productId){
-            $.ajax({
-              url:"/admin/deleteImage",
-              method:"POST",
-              data:{imageNameToServer:imageId,productIdToServer:productId},
-              success:((response)=>{
-                if(response.status===true){
-                    window.location.reload()
-                }
-              })
-            })
-           }
+        //    function deleteSingleImage(imageId,productId){
+        //     $.ajax({
+        //       url:"/admin/deleteImage",
+        //       method:"POST",
+        //       data:{imageNameToServer:imageId,productIdToServer:productId},
+        //       success:((response)=>{
+        //         if(response.status===true){
+        //             console.log(response)
+        //             window.location.reload()
+        //         }
+        //       })
+        //     })
+        //    }
          
+
+
+        function deleteSingleImage(imageId, productId) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you really want to delete this image?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "/admin/deleteImage",
+        method: "POST",
+        data: { imageNameToServer: imageId, productIdToServer: productId },
+        success: (response) => {
+          if (response.status === true) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "The image has been deleted successfully.",
+              icon: "success",
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              window.location.reload();
+            });
+          } else if (response.message === "Product should contain a minimum of 3 images") {
+            Swal.fire({
+              title: "Warning!",
+              text: "A product must have at least 3 images. Cannot delete!",
+              icon: "warning",
+            });
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: response.message || "Failed to delete the image.",
+              icon: "error",
+            });
+          }
+        },
+        error: () => {
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong. Please try again.",
+            icon: "error",
+          });
+        },
+      });
+    }
+  });
+}
+
        </script>
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     
      
 <%- include("../../views/partials/admin/footer") %>

@@ -1,119 +1,126 @@
 <%- include("../../views/partials/user/header") %>
 <main class="main">
- <div class="page-header breadcrumb-wrap">
-     <div class="container">
-         <div class="breadcrumb">
-             <a href="/" rel="nofollow">Home</a>
-             <span></span> Watches
-             <span></span>product detail page
-         </div>
-     </div>
- </div>
- <section class="mt-50 mb-50">
-     <div class="container">
-         <div class="row">
-             <div class="col-lg-9">
-                 <div class="product-detail accordion-detail">
-                     <div class="row mb-50">
-                         <div class="col-md-6 col-sm-12 col-xs-12">
-                             <div class="detail-gallery">
-                                 <span class="zoom-icon"><i class="fi-rs-search"></i></span>
-                                 <div class="product-image-slider">
-                                     <figure class="border-radius-10">
-                                         <img src="/uploads/re-image/<%=product.productImage[0]%>" alt="product image">
-                                     </figure>
-                                     <figure class="border-radius-10">
-                                       <img src="/uploads/re-image/<%=product.productImage[1]%>" alt="product image">
-                                   </figure>
-                                   <figure class="border-radius-10">
-                                       <img src="/uploads/re-image/<%=product.productImage[2]%>" alt="product image">
-                                   </figure>
-                                   <figure class="border-radius-10">
-                                       <img src="/uploads/re-image/<%=product.productImage[3]%>" alt="product image">
-                                   </figure>
-                                   <figure class="border-radius-10">
-                                       <img src="/uploads/re-image/<%=product.productImage[4]%>" alt="product image">
-                                   </figure>
-                                 </div>
-                                 <div  class="slider-nav-thumbnails pl-15 pr-15">
-                                    <%for(let i=0;i<product.productImage.length;i++){%>
-                                       <div>
-                                           <img style="object-fit:contain ;" src="/uploads/re-image/<%=product.productImage[i]%>" alt="product Image">
-                                       </div>
-                                  <%}%>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="col-md-6 col-sm-12 col-xs-12">
-                             <div class="detail-info">
-                                 <h2 class="title-detail"><%=product.productName%></h2>
-                                 <div class="product-detail-rating">
-                                     <div class="pro-details-brand">
-                                         <span> Brand: <a href="#"><%=product.brand%></a></span>
-                                     </div>
-                                     <div class="product-rate-cover text-end">
-                                         <div class="product-rate d-inline-block">
-                                             <div class="product-rating" style="width:90%">
-                                             </div>
-                                         </div>
-                                         <span class="font-small ml-5 text-muted"> (25 reviews)</span>
-                                     </div>
-                                 </div>
-                                 <div class="clearfix product-price-cover">
-                                     <div class="product-price primary-color float-left">
-                                         <ins><span class="text-brand">₹<%=product.regularPrice%></span></ins>
-                                         <!-- <ins><span class="old-price font-md ml-15"></span></ins> -->
-                                         <span class="save-price  font-md color3 ml-15">
-                                       </span>
-                                     </div>
-                                 </div>
-                                 <div class="bt-1 border-color-1 mt-15 mb-15"></div>
-                                 <div class="short-desc mb-30">
-                                     <p><%=product.description%></p>
-                                 </div>
-                                 <div class="product_sort_info font-xs mb-30">
-                                     <ul>
-                                         <li class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year Brand Warranty</li>
-                                         <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return Policy</li>
-                                         <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery available</li>
-                                     </ul>
-                                 </div>
-                               
-                                 <div class="bt-1 border-color-1 mt-30 mb-30"></div>
-                                 <div class="detail-extralink">
-                                     <div class="detail-qty border radius">
-                                         <a href="#" class="qty-down" onclick="" ><i class="fi-rs-angle-small-down"></i></a>
-                                         <span class="qty-val" id="quantity">1</span>
-                                         <a href="#" class="qty-up" onclick=""><i class="fi-rs-angle-small-up"></i></a>
-                                     </div>
-                                     <div class="product-extra-link2">
-                                      
-                                         <button type="submit" class="button button-add-to-cart" onclick="">Add to cart</button>
-                                       
-                                         <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#"><i class="fi-rs-heart"></i></a>
-                                     </div>
-                                 </div>
-                                 <ul class="product-meta font-xs color-grey mt-50">
-                                     <li class="mb-5">Stock Code: <a href="#">FWM15VKT</a></li>
-                                     <li class="mb-5">Tags: <a href="#" rel="tag"></a> <a href="#" rel="tag"></a> <a href="#" rel="tag"><%=category.name%></a> </li>
-                                     <li>Availability:
-                                        <% if (quantity >= 0) { %>
-                                            <span class="in-stock text-success ml-5"><%= quantity %> Items in stock</span>
-                                        <% } else { %>
-                                            <span class="out-of-stock text-danger ml-5">Out of stock</span>
-                                        <% } %>
-                                    </li>
-                                 </ul>
-                             </div>
-                         </div>
-                     </div>
-                    
-                 </div>
-             </div>
-         </div>
-     </div>
- </section>
+  <div class="page-header breadcrumb-wrap">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/" rel="nofollow">Home</a>
+        <span></span> Watches
+        <span></span> Product Detail Page
+      </div>
+    </div>
+  </div>
+
+  <section class="mt-50 mb-50">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="product-detail accordion-detail">
+            <div class="row mb-50">
+              <!-- Product Image Section -->
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="detail-gallery">
+                  <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                  <div class="product-image-slider">
+                    <% for(let i=0; i < Math.min(5, product.productImage.length); i++) { %>
+                      <figure class="border-radius-10">
+                        <img src="/uploads/re-image/<%= product.productImage[i] %>" alt="product image">
+                      </figure>
+                    <% } %>
+                  </div>
+                  <div class="slider-nav-thumbnails pl-15 pr-15">
+                    <% for(let i=0; i < product.productImage.length; i++) { %>
+                      <div>
+                        <img style="object-fit: contain;" src="/uploads/re-image/<%= product.productImage[i] %>" alt="product Image">
+                      </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Product Info Section -->
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="detail-info">
+                  <h2 class="title-detail"><%= product.productName %></h2>
+
+                  <div class="product-detail-rating d-flex align-items-center">
+                    <div class="pro-details-brand">
+                      <span> Brand: <a href="#"><%= product.brand %></a></span>
+                    </div>
+                    <div class="product-rate-cover text-end ml-3">
+                      <div class="product-rate d-inline-block">
+                        <div class="product-rating" style="width:90%"></div>
+                      </div>
+                      <span class="font-small ml-5 text-muted">⭐⭐⭐⭐⭐ (25 reviews)</span>
+                    </div>
+                  </div>
+
+                  <!-- Discount Offer Section -->
+                  <!-- <div class="alert alert-warning mt-2" role="alert">
+                    🎉 <b>Flat 10% Off</b> – Limited Time Offer!
+                  </div> -->
+
+                  <!-- Product Price Section -->
+                  <div class="clearfix product-price-cover mt-3">
+                    <div class="product-price primary-color float-left">
+                      <!-- <del class="text-muted">₹<%= (product.regularPrice * 1.1).toFixed(0) %></del>  -->
+                      <ins><span class="text-brand"> ₹<%= product.regularPrice %></span></ins>
+                      <span class="save-price font-md color3 ml-15">No Discounts Applied</div></span>
+                    </div>
+                  </div>
+
+                  <div class="bt-1 border-color-1 mt-15 mb-15"></div>
+
+                  <!-- Product Description -->
+                  <div class="short-desc mb-30">
+                    <p><%= product.description %></p>
+                  </div>
+
+                  <!-- Features & Policies -->
+                  <div class="product_sort_info font-xs mb-30">
+                    <ul>
+                      <li class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year Brand Warranty</li>
+                      <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return Policy</li>
+                      <li class="mb-10"><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery Available</li>
+                      <li class="mb-10 text-success"><i class="fi-rs-truck mr-5"></i> 🚀 Express Delivery Available</li>
+                    </ul>
+                  </div>
+
+                  <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+
+                  <!-- Quantity & Buttons -->
+                  <div class="detail-extralink">
+                    <div class="detail-qty border radius">
+                        <a href="#" class="qty-down" onclick="" ><i class="fi-rs-angle-small-down"></i></a>
+                        <span class="qty-val" id="quantity">1</span>
+                        <a href="#" class="qty-up" onclick=""><i class="fi-rs-angle-small-up"></i></a>
+                    </div>
+
+                    <div class="product-extra-link2 mt-3">
+                      <button type="submit" class="button button-add-to-cart">🛒 Add to cart</button>
+                      <a aria-label="Add To Wishlist" class="action-btn hover-up ml-2" href="#"><i class="fi-rs-heart"></i></a>
+                    </div>
+                  </div>
+
+                  <!-- Stock & Availability -->
+                  <ul class="product-meta font-xs color-grey mt-50">
+                    <li class="mb-5">Stock Code: <a href="#">FWM15VKT</a></li>
+                    <li class="mb-5">Tags: <a href="#" rel="tag"><%= category.name %></a></li>
+                    <li>
+                      Availability:
+                      <% if (quantity > 0) { %>
+                        <span class="badge badge-success ml-2">In Stock (<%= quantity %> Items)</span>
+                      <% } else { %>
+                        <span class="badge badge-danger ml-2">Out of Stock</span>
+                      <% } %>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </section>
 </main>
 <%- include("../../views/partials/user/footer") %>
-
-

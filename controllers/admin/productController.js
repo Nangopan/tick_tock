@@ -201,23 +201,37 @@ const editProduct = async (req, res) => {
   }
 };
 
-const deleteSingleImage=async (req,res)=>{
+const deleteSingleImage = async (req, res) => {
   try {
-      const {imageNameToServer,productIdToServer}=req.body
-      const product=await Product.findByIdAndUpdate(productIdToServer,{$pull:{productImage:imageNameToServer}})
-      const imagePath=path.join("public","uploads","re-image",imageNameToServer)
-      if(fs.existsSync(imagePath)){
-          await fs.unlinkSync(imagePath)
-          console.log(`Image${imageNameToServer} deleted successfully`)
-      }else{
-          console.log(`Image${imageNameToServer} not found`)
+    const { imageNameToServer, productIdToServer } = req.body;
+
+    // Fetch product and check image count
+    const theProduct = await Product.findById(productIdToServer);
+    if (!theProduct) return res.status(404).json({ message: "Product not found" });
+
+    if (theProduct.productImage.length <= 3) {
+      return res.json({ message: "Product should contain a minimum of 3 images" });
+    }
+
+    // Remove image from productImage array
+    await Product.findByIdAndUpdate(productIdToServer, { $pull: { productImage: imageNameToServer } });
+
+    // Delete image file from server
+    const imagePath = path.join("public", "uploads", "re-image", imageNameToServer);
+    fs.unlink(imagePath, (err) => {
+      if (err && err.code !== "ENOENT") {
+        console.error(`Error deleting image ${imageNameToServer}:`, err);
+      } else {
+        console.log(`Image ${imageNameToServer} deleted successfully`);
       }
-      res.send({status:true})
+    });
+
+    res.json({ status: true });
   } catch (error) {
-      console.log("error in deleting product",error)
-      res.redirect("/pageerror")
+    console.error("Error in deleting product image:", error);
+    res.redirect("/pageerror");
   }
- }
+};
 
 module.exports = {
   getProductAddPage,

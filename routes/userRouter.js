@@ -20,6 +20,9 @@ router.get("/auth/google/callback",passport.authenticate("google", { failureRedi
 router.get("/login", userController.loadLogin);
 router.post("/login", userController.login);
 router.get("/", userController.loadHomePage);
+router.get("/logout", userController.logout);
+
+
 router.get("/shop", userController.loadShoppingPage);
 router.get("/filter",userAuth,userController.filterProduct)
 router.get("/filterPrice",userAuth,userController.filterByPrice)
@@ -49,8 +52,8 @@ router.get("/editAddress",userAuth,profileController.editAddress)
 router.post("/editAddress",userAuth,profileController.postEditAddress)
 router.get("/deleteAddress",userAuth,profileController.deleteAddress)
 
-router.get("/productDetails",productController.productDetails)
+router.get("/productDetails",  productController.productDetails)
 
-router.get("/logout", userController.logout);
+
 
 module.exports = router;

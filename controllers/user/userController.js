@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const env = require("dotenv").config();
 
-
+let userOtp;
 
 const loadSignup = async (req, res) => {
   try {
@@ -80,8 +80,15 @@ const signup = async (req, res) => {
     if (!emailSent) {
       return res.json("email-error");
     }
+    userOtp = otp
+   // req.session.userOtp = otp;
+    setTimeout(() => {
+      console.log(userOtp)
+      
+      userOtp = null;      
+      console.log(userOtp)
 
-    req.session.userOtp = otp;
+  }, 60000);
     req.session.userData = { name, phone, email, password };
 
     res.render("verify-otp");
@@ -107,10 +114,10 @@ const verifyOtp = async (req, res) => {
   try {
     const { otp } = req.body;
 
-    console.log(otp);
-    console.log(req.session.userOtp);
-
-    if (otp === req.session.userOtp) {
+    console.log("uesr otp", otp);
+    console.log("created user SESSION", userOtp);
+  
+    if (otp == userOtp) {
       const user = req.session.userData;
       const passwordHash = await securePassword(user.password);
 
@@ -147,8 +154,10 @@ const resendOtp = async (req, res) => {
         .json({ success: false, message: "Email not found in session" });
     }
     const otp = generateOtp();
-    req.session.userOtp = otp;
-
+    userOtp = otp;
+    setTimeout(() => {
+      userOtp = null;
+  }, 60000);
     const emailSent = await sendVerificationEmail(email, otp);
     if (emailSent) {
       console.log("Resend OTP:", otp);
@@ -272,39 +281,7 @@ const loadShoppingPage = async (req, res) => {
   }
 };
 
-function generateOtp() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
 
-async function sendVerificationEmail(email, otp) {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: process.env.NODEMAILER_EMAIL,
-        pass: process.env.NODEMAILER_PASSWORD,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-
-    const info = await transporter.sendMail({
-      from: process.env.NODEMAILER_EMAIL,
-      to: email,
-      subject: "Verify your account",
-      text: `Your OTP is ${otp}`,
-      html: `<b>YOUR OTP: ${otp}</b>`,
-    });
-    return info.accepted.length > 0;
-  } catch (error) {
-    console.error("Error sending email", error.message);
-    return false;
-  }
-}
 
 
 const filterProduct=async (req,res)=>{
@@ -457,6 +434,40 @@ const searchProducts=async(req,res)=>{
     console.log("Error in searching products",error)
     res.redirect("/pageNotFound")
     
+  }
+}
+
+function generateOtp() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+async function sendVerificationEmail(email, otp) {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.NODEMAILER_EMAIL,
+      to: email,
+      subject: "Verify your account",
+      text: `Your OTP is ${otp}`,
+      html: `<b>YOUR OTP: ${otp}</b>`,
+    });
+    return info.accepted.length > 0;
+  } catch (error) {
+    console.error("Error sending email", error.message);
+    return false;
   }
 }
 
